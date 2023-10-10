@@ -1,0 +1,183 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <!-- Table for Deployment -->
+    <changeSet author="scf" id="2023-10-10_Deployment-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-Deployment" value="LONG" />
+        </preConditions>
+        <createTable tableName="DEPLOYMENTS">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="DEPLOYMENTS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="scf" id="2023-10-10_Deployment-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-Deployment" value="STRING" />
+                <changeLogPropertyDefined property="id-Deployment" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="DEPLOYMENTS">
+            <column name="ID" type="${idType-Deployment}" defaultValueComputed="${defaultValueComputed-Deployment}">
+                <constraints primaryKey="true" primaryKeyName="DEPLOYMENTS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="IOSB" id="2023-10-10_Deployment-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="DEPLOYMENTS">
+            <column name="SENSOR_ID" type="${idType-Sensor}" />
+            <column name="THING_ID" type="${idType-Thing}" />
+            <column name="NAME" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="TIME_START" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="TIME_END" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="PROPERTIES" type="JSONB" />
+        </addColumn>
+        <createIndex tableName="DEPLOYMENTS" indexName="DEPLOYMENTS_SENSOR_ID">
+            <column name="SENSOR_ID" />
+        </createIndex>
+        <createIndex tableName="DEPLOYMENTS" indexName="DEPLOYMENTS_THING_ID">
+            <column name="THING_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="DEPLOYMENTS_SENSOR_ID_FKEY"
+            baseTableName="DEPLOYMENTS" baseColumnNames="SENSOR_ID"
+            referencedTableName="SENSORS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+        <addForeignKeyConstraint constraintName="DEPLOYMENTS_THING_ID_FKEY"
+            baseTableName="DEPLOYMENTS" baseColumnNames="THING_ID"
+            referencedTableName="THINGS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+
+    <!-- Table for ObservationProcedure -->
+    <changeSet author="scf" id="2023-10-10_ObservationProcedure-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-ObservationProcedure" value="LONG" />
+        </preConditions>
+        <createTable tableName="OBS_PROCEDURES">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="OBS_PROCEDURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="scf" id="2023-10-10_ObservationProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-ObservationProcedure" value="STRING" />
+                <changeLogPropertyDefined property="id-ObservationProcedure" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="OBS_PROCEDURES">
+            <column name="ID" type="${idType-ObservationProcedure}" defaultValueComputed="${defaultValueComputed-ObservationProcedure}">
+                <constraints primaryKey="true" primaryKeyName="OBS_PROCEDURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="IOSB" id="2023-10-10_ObservationProcedure-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="OBS_PROCEDURES">
+            <column name="NAME" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="ENCODING_TYPE" type="TEXT"/>
+            <column name="METADATA" type="TEXT"/>
+            <column name="PROPERTIES" type="JSONB" />
+        </addColumn>
+        <addColumn tableName="DATASTREAMS">
+            <column name="OBS_PROCEDURE_ID" type="${idType-ObservationProcedure}" />
+        </addColumn>
+        <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_OBS_PROCEDURE_ID">
+            <column name="OBS_PROCEDURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="DATASTREAMS_OBS_PROCEDURE_ID_FKEY"
+            baseTableName="DATASTREAMS" baseColumnNames="OBS_PROCEDURE_ID"
+            referencedTableName="OBS_PROCEDURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+    <changeSet author="scf" id="2023-10-10_ObservationProcedure-Sensor" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="SENSOR_OBS_PROCEDURE">
+            <column name="SENSOR_ID" type="${idType-Sensor}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROCEDURE_ID" type="${idType-ObservationProcedure}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="SENSOR_ID, PROCEDURE_ID" constraintName="SENSOR_OBS_PROCEDURE_PKEY" tableName="SENSOR_OBS_PROCEDURE"/>
+        <createIndex tableName="SENSOR_OBS_PROCEDURE" indexName="SENSOR_OBS_PROCEDURE_SENSOR_ID">
+            <column name="SENSOR_ID" />
+        </createIndex>
+        <createIndex tableName="SENSOR_OBS_PROCEDURE" indexName="SENSOR_OBS_PROCEDURE_PROCEDURE_ID">
+            <column name="PROCEDURE_ID" />
+        </createIndex>
+    </changeSet>
+
+
+
+
+
+
+
+
+
+    <changeSet author="IOSB" id="2023-10-10_BH_Samplings" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="BH_Samplings">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_bh_samplings" />
+            </column>
+            <column name="NAME" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="SAMPLING_LOCATION" type="geometry(Geometry,4326)" />
+            <column name="TIME_START" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="TIME_END" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="TRAJECTORY_ID" type="BIGINT" />
+            <column name="SAMPLING_PROCEDURE_ID" type="BIGINT" />
+            <column name="SAMPLER_ID" type="BIGINT" />
+            <column name="PARAMETER" type="JSONB" />
+            <column name="AT_POSITION" type="FLOAT8" />
+            <column name="FROM_POSITION" type="FLOAT8" />
+            <column name="TO_POSITION" type="FLOAT8" />
+            <column name="POSITION_UOM" type="TEXT" />
+        </createTable>
+    </changeSet>
+
+
+
+    <changeSet author="IOSB" id="2023-10-10_FEATURES_view" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <dropForeignKeyConstraint baseTableName="OBSERVATIONS" constraintName="OBSERVATIONS_FEATURE_ID_FKEY" />
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_Sensor-sensorType" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="SENSORS">
+            <column name="SENSOR_TYPE" type="TEXT" />
+        </addColumn>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_Indices" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createIndex tableName="BH_CollarThings_LOCATIONS" indexName="BH_CollarThings_LOCATIONS_BH_CollarThing_ID">
+            <column name="BH_CollarThing_ID" />
+        </createIndex>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_ForeignKeys" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addForeignKeyConstraint constraintName="BH_CollarThings_LOCATIONS_BH_CollarThing_ID_FKEY"
+            baseTableName="BH_CollarThings_LOCATIONS" baseColumnNames="BH_CollarThing_ID"
+            referencedTableName="BH_CollarThings" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+    <changeSet author="scf" id="viewThingsLocations.sql" runOnChange="true" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <sqlFile dbms="postgresql" endDelimiter="/" stripComments="false" splitStatements="false" path="viewThingsLocations.sql" relativeToChangelogFile="true" encoding="utf8"/>
+    </changeSet>
+
+</databaseChangeLog>
