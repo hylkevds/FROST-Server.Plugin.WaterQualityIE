@@ -1,0 +1,536 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <property name="id-Deployment" value="LONG" global="false" />
+    <property name="idType-Deployment" value="BIGINT" global="false" />
+    <property name="id-ObservationProcedure" value="LONG" global="false" />
+    <property name="idType-ObservationProcedure" value="BIGINT" global="false" />
+    <property name="id-SamplingProcedure" value="LONG" global="false" />
+    <property name="idType-SamplingProcedure" value="BIGINT" global="false" />
+    <property name="id-Sampler" value="LONG" global="false" />
+    <property name="idType-Sampler" value="BIGINT" global="false" />
+    <property name="id-Sampling" value="LONG" global="false" />
+    <property name="idType-Sampling" value="BIGINT" global="false" />
+    <property name="id-PreparationProcedure" value="LONG" global="false" />
+    <property name="idType-PreparationProcedure" value="BIGINT" global="false" />
+    <property name="id-PreparationStep" value="LONG" global="false" />
+    <property name="idType-PreparationStep" value="BIGINT" global="false" />
+    <property name="id-FeatureType" value="LONG" global="false" />
+    <property name="idType-FeatureType" value="BIGINT" global="false" />
+    <property name="id-RelatedFeature" value="LONG" global="false" />
+    <property name="idType-RelatedFeature" value="BIGINT" global="false" />
+
+    <!-- Table for Deployment -->
+    <changeSet author="scf" id="2023-10-10_Deployment-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-Deployment" value="LONG" />
+        </preConditions>
+        <createTable tableName="DEPLOYMENTS">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="DEPLOYMENTS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="scf" id="2023-10-10_Deployment-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-Deployment" value="STRING" />
+                <changeLogPropertyDefined property="id-Deployment" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="DEPLOYMENTS">
+            <column name="ID" type="${idType-Deployment}" defaultValueComputed="${defaultValueComputed-Deployment}">
+                <constraints primaryKey="true" primaryKeyName="DEPLOYMENTS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_Deployment-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="DEPLOYMENTS">
+            <column name="SENSOR_ID" type="${idType-Sensor}" />
+            <column name="THING_ID" type="${idType-Thing}" />
+            <column name="NAME" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="TIME_START" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="TIME_END" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="PROPERTIES" type="JSONB" />
+        </addColumn>
+        <createIndex tableName="DEPLOYMENTS" indexName="DEPLOYMENTS_SENSOR_ID">
+            <column name="SENSOR_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="DEPLOYMENTS_SENSOR_ID_FKEY"
+            baseTableName="DEPLOYMENTS" baseColumnNames="SENSOR_ID"
+            referencedTableName="SENSORS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+        <createIndex tableName="DEPLOYMENTS" indexName="DEPLOYMENTS_THING_ID">
+            <column name="THING_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="DEPLOYMENTS_THING_ID_FKEY"
+            baseTableName="DEPLOYMENTS" baseColumnNames="THING_ID"
+            referencedTableName="THINGS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+
+    <!-- Table for ObservationProcedure -->
+    <changeSet author="scf" id="2023-10-10_ObservationProcedure-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-ObservationProcedure" value="LONG" />
+        </preConditions>
+        <createTable tableName="OBSERVATION_PROCEDURES">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="OBSERVATION_PROCEDURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="scf" id="2023-10-10_ObservationProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-ObservationProcedure" value="STRING" />
+                <changeLogPropertyDefined property="id-ObservationProcedure" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="OBSERVATION_PROCEDURES">
+            <column name="ID" type="${idType-ObservationProcedure}" defaultValueComputed="${defaultValueComputed-ObservationProcedure}">
+                <constraints primaryKey="true" primaryKeyName="OBSERVATION_PROCEDURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_ObservationProcedure-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="OBSERVATION_PROCEDURES">
+            <column name="NAME" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="ENCODING_TYPE" type="TEXT" />
+            <column name="METADATA" type="TEXT" />
+            <column name="PROPERTIES" type="JSONB" />
+        </addColumn>
+        <addColumn tableName="DATASTREAMS">
+            <column name="OBSERVATION_PROCEDURE_ID" type="${idType-ObservationProcedure}" />
+        </addColumn>
+
+        <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_OBSERVATION_PROCEDURE_ID">
+            <column name="OBSERVATION_PROCEDURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="DATASTREAMS_OBSERVATION_PROCEDURE_ID_FKEY"
+            baseTableName="DATASTREAMS" baseColumnNames="OBSERVATION_PROCEDURE_ID"
+            referencedTableName="OBSERVATION_PROCEDURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+    <changeSet author="scf" id="2023-10-10_ObservationProcedure-Sensor" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="SENSOR_OBSERVATION_PROCEDURE">
+            <column name="SENSOR_ID" type="${idType-Sensor}">
+                <constraints nullable="false" />
+            </column>
+            <column name="PROCEDURE_ID" type="${idType-ObservationProcedure}">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="SENSOR_ID, PROCEDURE_ID" constraintName="SENSOR_OBSERVATION_PROCEDURE_PKEY" tableName="SENSOR_OBSERVATION_PROCEDURE" />
+
+        <createIndex tableName="SENSOR_OBSERVATION_PROCEDURE" indexName="SENSOR_OBSERVATION_PROCEDURE_SENSOR_ID">
+            <column name="SENSOR_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="SENSOR_OBSERVATION_PROCEDURE_SENSOR_ID_FKEY"
+            baseTableName="SENSOR_OBSERVATION_PROCEDURE" baseColumnNames="SENSOR_ID"
+            referencedTableName="SENSORS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="SENSOR_OBSERVATION_PROCEDURE" indexName="SENSOR_OBSERVATION_PROCEDURE_PROCEDURE_ID">
+            <column name="PROCEDURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="SENSOR_OBSERVATION_PROCEDURE_PROCEDURE_ID_FKEY"
+            baseTableName="SENSOR_OBSERVATION_PROCEDURE" baseColumnNames="PROCEDURE_ID"
+            referencedTableName="OBSERVATION_PROCEDURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+    </changeSet>
+
+
+    <!-- Table for SamplingProcedure -->
+    <changeSet author="scf" id="2023-10-10_SamplingProcedure-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-SamplingProcedure" value="LONG" />
+        </preConditions>
+        <createTable tableName="SAMPLING_PROCEDURES">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="SAMPLING_PROCEDURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="scf" id="2023-10-10_SamplingProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-SamplingProcedure" value="STRING" />
+                <changeLogPropertyDefined property="id-SamplingProcedure" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="SAMPLING_PROCEDURES">
+            <column name="ID" type="${idType-SamplingProcedure}" defaultValueComputed="${defaultValueComputed-SamplingProcedure}">
+                <constraints primaryKey="true" primaryKeyName="SAMPLING_PROCEDURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_SamplingProcedure-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="SAMPLING_PROCEDURES">
+            <column name="NAME" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="LINK" type="TEXT" />
+            <column name="PROPERTIES" type="JSONB" />
+        </addColumn>
+    </changeSet>
+
+
+    <!-- Table for Sampler -->
+    <changeSet author="scf" id="2023-10-10_Sampler-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-Sampler" value="LONG" />
+        </preConditions>
+        <createTable tableName="SAMPLERS">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="SAMPLERS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="scf" id="2023-10-10_Sampler-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-Sampler" value="STRING" />
+                <changeLogPropertyDefined property="id-Sampler" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="SAMPLERS">
+            <column name="ID" type="${idType-Sampler}" defaultValueComputed="${defaultValueComputed-Sampler}">
+                <constraints primaryKey="true" primaryKeyName="SAMPLERS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_Sampler-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="SAMPLERS">
+            <column name="PROCEDURE_ID" type="${idType-SamplingProcedure}" />
+            <column name="NAME" type="TEXT" />
+            <column name="SAMPLER_TYPE" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="LINK" type="TEXT" />
+            <column name="PROPERTIES" type="JSONB" />
+        </addColumn>
+        <createIndex tableName="SAMPLERS" indexName="SAMPLERS_PROCEDURE_ID">
+            <column name="PROCEDURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="SAMPLERS_PROCEDURE_ID_FKEY"
+            baseTableName="SAMPLERS" baseColumnNames="PROCEDURE_ID"
+            referencedTableName="SAMPLING_PROCEDURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+
+    <!-- Table for Sampling -->
+    <changeSet author="scf" id="2023-10-10_Sampling-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-Sampling" value="LONG" />
+        </preConditions>
+        <createTable tableName="SAMPLINGS">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="SAMPLINGS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="scf" id="2023-10-10_Sampling-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-Sampling" value="STRING" />
+                <changeLogPropertyDefined property="id-Sampling" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="SAMPLINGS">
+            <column name="ID" type="${idType-Sampling}" defaultValueComputed="${defaultValueComputed-Sampling}">
+                <constraints primaryKey="true" primaryKeyName="SAMPLINGS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_Sampling-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="SAMPLINGS">
+            <column name="PROCEDURE_ID" type="${idType-SamplingProcedure}" />
+            <column name="SAMPLER_ID" type="${idType-Sampler}" />
+            <column name="THING_ID" type="${idType-Thing}" />
+            <column name="SAMPLED_FEATURE_ID" type="${idType-Feature}" />
+            <column name="NAME" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="PARAMETERS" type="JSONB" />
+            <column name="SAMPLING_TIME_START" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="SAMPLING_TIME_END" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="ENCODING_TYPE" type="TEXT" />
+            <column name="LOCATION" type="TEXT" />
+            <column name="GEOM" type="geometry(Geometry,4326)" />
+            <column name="AT_DEPTH" type="FLOAT8" />
+            <column name="DEPTH_UOM" type="TEXT" />
+        </addColumn>
+
+        <createIndex tableName="SAMPLINGS" indexName="SAMPLINGS_PROCEDURE_ID">
+            <column name="PROCEDURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="SAMPLINGS_PROCEDURE_ID_FKEY"
+            baseTableName="SAMPLINGS" baseColumnNames="PROCEDURE_ID"
+            referencedTableName="SAMPLING_PROCEDURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="SAMPLINGS" indexName="SAMPLINGS_SAMPLER_ID">
+            <column name="SAMPLER_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="SAMPLINGS_SAMPLER_ID_FKEY"
+            baseTableName="SAMPLINGS" baseColumnNames="SAMPLER_ID"
+            referencedTableName="SAMPLERS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="SAMPLINGS" indexName="SAMPLINGS_THING_ID">
+            <column name="THING_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="SAMPLINGS_THING_ID_FKEY"
+            baseTableName="SAMPLINGS" baseColumnNames="THING_ID"
+            referencedTableName="THINGS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="SAMPLINGS" indexName="SAMPLINGS_FEATURE_ID">
+            <column name="SAMPLED_FEATURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="SAMPLINGS_FEATURE_ID_FKEY"
+            baseTableName="SAMPLINGS" baseColumnNames="SAMPLED_FEATURE_ID"
+            referencedTableName="FEATURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+
+    <!-- Creator from Feature (Sample) -->
+    <changeSet author="scf" id="2023-10-10_Feature_Creator" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="FEATURES">
+            <column name="CREATOR_SAMPLING_ID" type="${idType-Sampling}" />
+        </addColumn>
+        <createIndex tableName="FEATURES" indexName="FEATURES_CREATOR_SAMPLING_ID">
+            <column name="CREATOR_SAMPLING_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="FEATURES_CREATOR_SAMPLING_ID_FKEY"
+            baseTableName="FEATURES" baseColumnNames="CREATOR_SAMPLING_ID"
+            referencedTableName="SAMPLINGS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+
+    <!-- Table for PreparationProcedure -->
+    <changeSet author="scf" id="2023-10-10_PreparationProcedure-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-PreparationProcedure" value="LONG" />
+        </preConditions>
+        <createTable tableName="PREPARATION_PROCEDURES">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PREPARATION_PROCEDURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="scf" id="2023-10-10_PreparationProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-PreparationProcedure" value="STRING" />
+                <changeLogPropertyDefined property="id-PreparationProcedure" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="PREPARATION_PROCEDURES">
+            <column name="ID" type="${idType-PreparationProcedure}" defaultValueComputed="${defaultValueComputed-PreparationProcedure}">
+                <constraints primaryKey="true" primaryKeyName="PREPARATION_PROCEDURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-05-23_PreparationProcedure-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="PREPARATION_PROCEDURES">
+            <column name="NAME" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="LINK" type="TEXT" />
+            <column name="PROPERTIES" type="JSONB" />
+        </addColumn>
+    </changeSet>
+
+
+    <!-- Table for PreparationStep -->
+    <changeSet author="scf" id="2023-10-10_PreparationStep-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-PreparationStep" value="LONG" />
+        </preConditions>
+        <createTable tableName="PREPARATION_STEPS">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PREPARATION_STEPS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="scf" id="2023-10-10_PreparationStep-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-PreparationStep" value="STRING" />
+                <changeLogPropertyDefined property="id-PreparationStep" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="PREPARATION_STEPS">
+            <column name="ID" type="${idType-PreparationStep}" defaultValueComputed="${defaultValueComputed-PreparationStep}">
+                <constraints primaryKey="true" primaryKeyName="PREPARATION_STEPS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-05-23_PreparationStep-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="PREPARATION_STEPS">
+            <column name="FEATURE_ID" type="${idType-Feature}" />
+            <column name="PREPARATION_PROCEDURE_ID" type="${idType-PreparationProcedure}" />
+            <column name="NAME" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="TIME" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="LINK" type="TEXT" />
+            <column name="PROPERTIES" type="JSONB" />
+        </addColumn>
+
+        <createIndex tableName="PREPARATION_STEPS" indexName="PREPARATION_STEPS_FEATURE_ID">
+            <column name="FEATURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="PREPARATION_STEPS_FEATURE_ID_FKEY"
+            baseTableName="PREPARATION_STEPS" baseColumnNames="FEATURE_ID"
+            referencedTableName="FEATURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="PREPARATION_STEPS" indexName="PREPARATION_STEPS_PREPARATION_PROCEDURE_ID">
+            <column name="PREPARATION_PROCEDURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="PREPARATION_STEPS_PREPARATION_PROCEDURE_ID_FKEY"
+            baseTableName="PREPARATION_STEPS" baseColumnNames="PREPARATION_PROCEDURE_ID"
+            referencedTableName="PREPARATION_PROCEDURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+
+    <!-- Table for FeatureType -->
+    <changeSet author="scf" id="2023-10-10_FeatureType-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-FeatureType" value="LONG" />
+        </preConditions>
+        <createTable tableName="FEATURE_TYPES">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="FEATURE_TYPES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="scf" id="2023-10-10_FeatureType-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-FeatureType" value="STRING" />
+                <changeLogPropertyDefined property="id-FeatureType" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="FEATURE_TYPES">
+            <column name="ID" type="${idType-FeatureType}" defaultValueComputed="${defaultValueComputed-FeatureType}">
+                <constraints primaryKey="true" primaryKeyName="FEATURE_TYPES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-05-23_FeatureType-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="FEATURE_TYPES">
+            <column name="NAME" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="PROPERTIES" type="JSONB" />
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="scf" id="2023-10-10_FeatureType-Feature" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="FEATURE_TYPE_FEATURE">
+            <column name="FEATURE_TYPE_ID" type="${idType-FeatureType}">
+                <constraints nullable="false" />
+            </column>
+            <column name="FEATURE_ID" type="${idType-Feature}">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="FEATURE_TYPE_ID, FEATURE_ID" constraintName="FEATURE_TYPE_FEATURE_PKEY" tableName="FEATURE_TYPE_FEATURE" />
+
+        <createIndex tableName="FEATURE_TYPE_FEATURE" indexName="FEATURE_TYPE_FEATURE_FEATURE_TYPE_ID">
+            <column name="FEATURE_TYPE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="FEATURE_TYPE_FEATURE_FEATURE_TYPE_ID_FKEY"
+            baseTableName="FEATURE_TYPE_FEATURE" baseColumnNames="FEATURE_TYPE_ID"
+            referencedTableName="FEATURE_TYPES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="FEATURE_TYPE_FEATURE" indexName="FEATURE_TYPE_FEATURE_FEATURE_ID">
+            <column name="FEATURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="FEATURE_TYPE_FEATURE_FEATURE_ID_FKEY"
+            baseTableName="FEATURE_TYPE_FEATURE" baseColumnNames="FEATURE_ID"
+            referencedTableName="FEATURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+
+    <!-- UltimateFeature from Datastream -->
+    <changeSet author="scf" id="2023-10-10_Datastream-UltimateFeature" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="DATASTREAMS">
+            <column name="ULTIMATE_FEATURE_ID" type="${idType-Feature}" />
+        </addColumn>
+        <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_ULTIMATE_FEATURE_ID">
+            <column name="ULTIMATE_FEATURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="DATASTREAMS_ULTIMATE_FEATURE_ID_FKEY"
+            baseTableName="DATASTREAMS" baseColumnNames="ULTIMATE_FEATURE_ID"
+            referencedTableName="FEATURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+
+    <!-- Table for RelatedFeature -->
+    <changeSet author="scf" id="2023-10-10_RelatedFeature-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-RelatedFeature" value="LONG" />
+        </preConditions>
+        <createTable tableName="RELATED_FEATURES">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="RELATED_FEATURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="scf" id="2023-10-10_RelatedFeature-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-RelatedFeature" value="STRING" />
+                <changeLogPropertyDefined property="id-RelatedFeature" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="RELATED_FEATURES">
+            <column name="ID" type="${idType-RelatedFeature}" defaultValueComputed="${defaultValueComputed-RelatedFeature}">
+                <constraints primaryKey="true" primaryKeyName="RELATED_FEATURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_RelatedFeature-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="RELATED_FEATURES">
+            <column name="SOURCE_FEATURE_ID" type="${idType-Feature}" />
+            <column name="TARGET_FEATURE_ID" type="${idType-Feature}" />
+            <column name="ROLE" type="TEXT" />
+        </addColumn>
+
+        <createIndex tableName="RELATED_FEATURES" indexName="RELATED_FEATURES_SOURCE_FEATURE_ID">
+            <column name="SOURCE_FEATURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_FEATURES_SOURCE_FEATURE_ID_FKEY"
+            baseTableName="RELATED_FEATURES" baseColumnNames="SOURCE_FEATURE_ID"
+            referencedTableName="FEATURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="RELATED_FEATURES" indexName="RELATED_FEATURES_TARGET_FEATURE_ID">
+            <column name="TARGET_FEATURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_FEATURES_TARGET_FEATURE_ID_FKEY"
+            baseTableName="RELATED_FEATURES" baseColumnNames="TARGET_FEATURE_ID"
+            referencedTableName="FEATURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+
+</databaseChangeLog>

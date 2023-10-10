@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  waterquality_web:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: hylkevds/frost-http-waterquality:latest
+    ports:
+      - 8080:8080
+    environment:
+      - serviceRootUrl=http://localhost:8080/FROST-Server
+      - queueLoggingInterval=1000
+      - http_cors_enable=true
+      - http_cors_allowed_origins=*
+      - persistence_db_driver=org.postgresql.Driver
+      - persistence_db_url=jdbc:postgresql://waterquality_database:5432/sensorthings
+      - persistence_db_username=sensorthings
+      - persistence_db_password=ChangeMe
+      - persistence_autoUpdateDatabase=true
+      - FROST_LL=info
+      - FROST_LL_service=info
+      - FROST_LL_org_jooq=info
+
+  waterquality_database:
+    image: postgis/postgis:14-3.2-alpine
+    environment:
+      - POSTGRES_DB=sensorthings
+      - POSTGRES_USER=sensorthings
+      - POSTGRES_PASSWORD=ChangeMe
+    volumes:
+      - waterquality_volume:/var/lib/postgresql/data
+    ports:
+      - 6543:5432
+
+volumes:
+    waterquality_volume:
