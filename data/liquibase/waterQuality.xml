@@ -20,7 +20,6 @@
             </column>
         </createTable>
     </changeSet>
-
     <changeSet author="scf" id="2023-10-10_Deployment-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <or>
@@ -34,7 +33,6 @@
             </column>
         </createTable>
     </changeSet>
-
     <changeSet author="IOSB" id="2023-10-10_Deployment-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <addColumn tableName="DEPLOYMENTS">
             <column name="SENSOR_ID" type="${idType-Sensor}" />
@@ -48,13 +46,13 @@
         <createIndex tableName="DEPLOYMENTS" indexName="DEPLOYMENTS_SENSOR_ID">
             <column name="SENSOR_ID" />
         </createIndex>
-        <createIndex tableName="DEPLOYMENTS" indexName="DEPLOYMENTS_THING_ID">
-            <column name="THING_ID" />
-        </createIndex>
         <addForeignKeyConstraint constraintName="DEPLOYMENTS_SENSOR_ID_FKEY"
             baseTableName="DEPLOYMENTS" baseColumnNames="SENSOR_ID"
             referencedTableName="SENSORS" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+        <createIndex tableName="DEPLOYMENTS" indexName="DEPLOYMENTS_THING_ID">
+            <column name="THING_ID" />
+        </createIndex>
         <addForeignKeyConstraint constraintName="DEPLOYMENTS_THING_ID_FKEY"
             baseTableName="DEPLOYMENTS" baseColumnNames="THING_ID"
             referencedTableName="THINGS" referencedColumnNames="ID"
@@ -73,7 +71,6 @@
             </column>
         </createTable>
     </changeSet>
-
     <changeSet author="scf" id="2023-10-10_ObservationProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <or>
@@ -87,7 +84,6 @@
             </column>
         </createTable>
     </changeSet>
-
     <changeSet author="IOSB" id="2023-10-10_ObservationProcedure-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <addColumn tableName="OBS_PROCEDURES">
             <column name="NAME" type="TEXT" />
@@ -125,6 +121,139 @@
             <column name="PROCEDURE_ID" />
         </createIndex>
     </changeSet>
+
+
+    <!-- Table for SamplingProcedure -->
+    <changeSet author="scf" id="2023-10-10_SamplingProcedure-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-SamplingProcedure" value="LONG" />
+        </preConditions>
+        <createTable tableName="SAMPLING_PROCEDURES">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="SAMPLING_PROCEDURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="scf" id="2023-10-10_SamplingProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-SamplingProcedure" value="STRING" />
+                <changeLogPropertyDefined property="id-SamplingProcedure" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="SAMPLING_PROCEDURES">
+            <column name="ID" type="${idType-SamplingProcedure}" defaultValueComputed="${defaultValueComputed-SamplingProcedure}">
+                <constraints primaryKey="true" primaryKeyName="SAMPLING_PROCEDURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_SamplingProcedure-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="SAMPLING_PROCEDURES">
+            <column name="NAME" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="LINK" type="TEXT" />
+            <column name="PROPERTIES" type="JSONB" />
+        </addColumn>
+    </changeSet>
+
+
+    <!-- Table for Sampler -->
+    <changeSet author="scf" id="2023-10-10_Sampler-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-Sampler" value="LONG" />
+        </preConditions>
+        <createTable tableName="SAMPLERS">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="SAMPLERS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="scf" id="2023-10-10_Sampler-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-Sampler" value="STRING" />
+                <changeLogPropertyDefined property="id-Sampler" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="SAMPLERS">
+            <column name="ID" type="${idType-Sampler}" defaultValueComputed="${defaultValueComputed-Sampler}">
+                <constraints primaryKey="true" primaryKeyName="SAMPLERS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_Sampler-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="SAMPLERS">
+            <column name="PROCEDURE_ID" type="${idType-SamplingProcedure}" />
+            <column name="NAME" type="TEXT" />
+            <column name="SAMPLER_TYPE" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="LINK" type="TEXT" />
+            <column name="PROPERTIES" type="JSONB" />
+        </addColumn>
+        <createIndex tableName="SAMPLERS" indexName="SAMPLERS_PROCEDURE_ID">
+            <column name="PROCEDURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="SAMPLERS_PROCEDURE_ID_FKEY"
+            baseTableName="SAMPLERS" baseColumnNames="PROCEDURE_ID"
+            referencedTableName="SAMPLING_PROCEDURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+
+    <!-- Table for Sampling -->
+    <changeSet author="scf" id="2023-10-10_Sampling-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-Sampling" value="LONG" />
+        </preConditions>
+        <createTable tableName="SAMPLINGS">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="SAMPLINGS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="scf" id="2023-10-10_Sampling-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-Sampling" value="STRING" />
+                <changeLogPropertyDefined property="id-Sampling" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="SAMPLINGS">
+            <column name="ID" type="${idType-Sampling}" defaultValueComputed="${defaultValueComputed-Sampling}">
+                <constraints primaryKey="true" primaryKeyName="SAMPLINGS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_Sampling-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="SAMPLINGS">
+            <column name="PROCEDURE_ID" type="${idType-SamplingProcedure}" />
+            <column name="SAMPLER_ID" type="${idType-Sampler}" />
+
+            <column name="THING_ID" type="${idType-Thing}" />
+            <column name="FEATURE_ID" type="${idType-Feature}" />
+
+            <column name="NAME" type="TEXT" />
+            <column name="SAMPLER_TYPE" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="LINK" type="TEXT" />
+            <column name="PROPERTIES" type="JSONB" />
+        </addColumn>
+        <createIndex tableName="SAMPLINGS" indexName="SAMPLINGS_PROCEDURE_ID">
+            <column name="PROCEDURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="SAMPLINGS_PROCEDURE_ID_FKEY"
+            baseTableName="SAMPLINGS" baseColumnNames="PROCEDURE_ID"
+            referencedTableName="SAMPLING_PROCEDURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+        <createIndex tableName="SAMPLINGS" indexName="SAMPLINGS_SAMPLER_ID">
+            <column name="SAMPLER_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="SAMPLINGS_SAMPLER_ID_FKEY"
+            baseTableName="SAMPLINGS" baseColumnNames="SAMPLER_ID"
+            referencedTableName="SAMPLERS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+        </changeSet>
+
 
 
 
