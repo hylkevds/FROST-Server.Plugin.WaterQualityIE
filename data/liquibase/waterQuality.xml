@@ -83,9 +83,9 @@
         <preConditions onFail="MARK_RAN">
             <changeLogPropertyDefined property="id-ObservationProcedure" value="LONG" />
         </preConditions>
-        <createTable tableName="OBS_PROCEDURES">
+        <createTable tableName="OBSERVATION_PROCEDURES">
             <column name="ID" type="${idTypeLong}" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="OBS_PROCEDURES_PKEY" />
+                <constraints primaryKey="true" primaryKeyName="OBSERVATION_PROCEDURES_PKEY" />
             </column>
         </createTable>
     </changeSet>
@@ -96,14 +96,14 @@
                 <changeLogPropertyDefined property="id-ObservationProcedure" value="UUID" />
             </or>
         </preConditions>
-        <createTable tableName="OBS_PROCEDURES">
+        <createTable tableName="OBSERVATION_PROCEDURES">
             <column name="ID" type="${idType-ObservationProcedure}" defaultValueComputed="${defaultValueComputed-ObservationProcedure}">
-                <constraints primaryKey="true" primaryKeyName="OBS_PROCEDURES_PKEY" />
+                <constraints primaryKey="true" primaryKeyName="OBSERVATION_PROCEDURES_PKEY" />
             </column>
         </createTable>
     </changeSet>
     <changeSet author="IOSB" id="2023-10-10_ObservationProcedure-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
-        <addColumn tableName="OBS_PROCEDURES">
+        <addColumn tableName="OBSERVATION_PROCEDURES">
             <column name="NAME" type="TEXT" />
             <column name="DESCRIPTION" type="TEXT" />
             <column name="ENCODING_TYPE" type="TEXT" />
@@ -111,19 +111,20 @@
             <column name="PROPERTIES" type="JSONB" />
         </addColumn>
         <addColumn tableName="DATASTREAMS">
-            <column name="OBS_PROCEDURE_ID" type="${idType-ObservationProcedure}" />
+            <column name="OBSERVATION_PROCEDURE_ID" type="${idType-ObservationProcedure}" />
         </addColumn>
-        <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_OBS_PROCEDURE_ID">
-            <column name="OBS_PROCEDURE_ID" />
+
+        <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_OBSERVATION_PROCEDURE_ID">
+            <column name="OBSERVATION_PROCEDURE_ID" />
         </createIndex>
-        <addForeignKeyConstraint constraintName="DATASTREAMS_OBS_PROCEDURE_ID_FKEY"
-            baseTableName="DATASTREAMS" baseColumnNames="OBS_PROCEDURE_ID"
-            referencedTableName="OBS_PROCEDURES" referencedColumnNames="ID"
+        <addForeignKeyConstraint constraintName="DATASTREAMS_OBSERVATION_PROCEDURE_ID_FKEY"
+            baseTableName="DATASTREAMS" baseColumnNames="OBSERVATION_PROCEDURE_ID"
+            referencedTableName="OBSERVATION_PROCEDURES" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
     </changeSet>
 
     <changeSet author="scf" id="2023-10-10_ObservationProcedure-Sensor" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
-        <createTable tableName="SENSOR_OBS_PROCEDURE">
+        <createTable tableName="SENSOR_OBSERVATION_PROCEDURE">
             <column name="SENSOR_ID" type="${idType-Sensor}">
                 <constraints nullable="false" />
             </column>
@@ -131,13 +132,24 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
-        <addPrimaryKey columnNames="SENSOR_ID, PROCEDURE_ID" constraintName="SENSOR_OBS_PROCEDURE_PKEY" tableName="SENSOR_OBS_PROCEDURE" />
-        <createIndex tableName="SENSOR_OBS_PROCEDURE" indexName="SENSOR_OBS_PROCEDURE_SENSOR_ID">
+        <addPrimaryKey columnNames="SENSOR_ID, PROCEDURE_ID" constraintName="SENSOR_OBSERVATION_PROCEDURE_PKEY" tableName="SENSOR_OBSERVATION_PROCEDURE" />
+
+        <createIndex tableName="SENSOR_OBSERVATION_PROCEDURE" indexName="SENSOR_OBSERVATION_PROCEDURE_SENSOR_ID">
             <column name="SENSOR_ID" />
         </createIndex>
-        <createIndex tableName="SENSOR_OBS_PROCEDURE" indexName="SENSOR_OBS_PROCEDURE_PROCEDURE_ID">
+        <addForeignKeyConstraint constraintName="SENSOR_OBSERVATION_PROCEDURE_SENSOR_ID_FKEY"
+            baseTableName="SENSOR_OBSERVATION_PROCEDURE" baseColumnNames="SENSOR_ID"
+            referencedTableName="SENSORS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="SENSOR_OBSERVATION_PROCEDURE" indexName="SENSOR_OBSERVATION_PROCEDURE_PROCEDURE_ID">
             <column name="PROCEDURE_ID" />
         </createIndex>
+        <addForeignKeyConstraint constraintName="SENSOR_OBSERVATION_PROCEDURE_PROCEDURE_ID_FKEY"
+            baseTableName="SENSOR_OBSERVATION_PROCEDURE" baseColumnNames="PROCEDURE_ID"
+            referencedTableName="OBSERVATION_PROCEDURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
     </changeSet>
 
 
@@ -293,30 +305,18 @@
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
     </changeSet>
 
-    <changeSet author="scf" id="2023-10-10_Sampling-Sample" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
-        <createTable tableName="SAMPLING_FEATURE">
-            <column name="SAMPLING_ID" type="${idType-Sampling}">
-                <constraints nullable="false" />
-            </column>
-            <column name="FEATURE_ID" type="${idType-Feature}">
-                <constraints nullable="false" />
-            </column>
-        </createTable>
-        <addPrimaryKey columnNames="SAMPLING_ID, FEATURE_ID" constraintName="SAMPLING_FEATURE_PKEY" tableName="SAMPLING_FEATURE" />
-        <createIndex tableName="SAMPLING_FEATURE" indexName="SAMPLING_FEATURE_SAMPLING_ID">
-            <column name="SAMPLING_ID" />
-        </createIndex>
-        <addForeignKeyConstraint constraintName="SAMPLING_FEATURE_SAMPLING_ID_FKEY"
-            baseTableName="SAMPLING_FEATURE" baseColumnNames="SAMPLING_ID"
-            referencedTableName="SAMPLINGS" referencedColumnNames="ID"
-            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
 
-        <createIndex tableName="SAMPLING_FEATURE" indexName="SAMPLING_FEATURE_FEATURE_ID">
-            <column name="FEATURE_ID" />
+    <!-- Creator from Feature (Sample) -->
+    <changeSet author="scf" id="2023-10-10_Feature_Creator" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="FEATURES">
+            <column name="CREATOR_SAMPLING_ID" type="${idType-Sampling}" />
+        </addColumn>
+        <createIndex tableName="FEATURES" indexName="FEATURES_CREATOR_SAMPLING_ID">
+            <column name="CREATOR_SAMPLING_ID" />
         </createIndex>
-        <addForeignKeyConstraint constraintName="SAMPLING_FEATURE_FEATURE_ID_FKEY"
-            baseTableName="SAMPLING_FEATURE" baseColumnNames="FEATURE_ID"
-            referencedTableName="FEATURES" referencedColumnNames="ID"
+        <addForeignKeyConstraint constraintName="FEATURES_CREATOR_SAMPLING_ID_FKEY"
+            baseTableName="FEATURES" baseColumnNames="CREATOR_SAMPLING_ID"
+            referencedTableName="SAMPLINGS" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
     </changeSet>
 
@@ -489,9 +489,9 @@
         <preConditions onFail="MARK_RAN">
             <changeLogPropertyDefined property="id-RelatedFeature" value="LONG" />
         </preConditions>
-        <createTable tableName="RELATEDFEATURES">
+        <createTable tableName="RELATED_FEATURES">
             <column name="ID" type="${idTypeLong}" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="RELATEDFEATURES_PKEY" />
+                <constraints primaryKey="true" primaryKeyName="RELATED_FEATURES_PKEY" />
             </column>
         </createTable>
     </changeSet>
@@ -502,32 +502,32 @@
                 <changeLogPropertyDefined property="id-RelatedFeature" value="UUID" />
             </or>
         </preConditions>
-        <createTable tableName="RELATEDFEATURES">
+        <createTable tableName="RELATED_FEATURES">
             <column name="ID" type="${idType-RelatedFeature}" defaultValueComputed="${defaultValueComputed-RelatedFeature}">
-                <constraints primaryKey="true" primaryKeyName="RELATEDFEATURES_PKEY" />
+                <constraints primaryKey="true" primaryKeyName="RELATED_FEATURES_PKEY" />
             </column>
         </createTable>
     </changeSet>
     <changeSet author="IOSB" id="2023-10-10_RelatedFeature-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
-        <addColumn tableName="RELATEDFEATURES">
+        <addColumn tableName="RELATED_FEATURES">
             <column name="SOURCE_FEATURE_ID" type="${idType-Feature}" />
             <column name="TARGET_FEATURE_ID" type="${idType-Feature}" />
             <column name="ROLE" type="TEXT" />
         </addColumn>
 
-        <createIndex tableName="RELATEDFEATURES" indexName="RELATEDFEATURES_SOURCE_FEATURE_ID">
+        <createIndex tableName="RELATED_FEATURES" indexName="RELATED_FEATURES_SOURCE_FEATURE_ID">
             <column name="SOURCE_FEATURE_ID" />
         </createIndex>
-        <addForeignKeyConstraint constraintName="RELATEDFEATURES_SOURCE_FEATURE_ID_FKEY"
-            baseTableName="RELATEDFEATURES" baseColumnNames="SOURCE_FEATURE_ID"
+        <addForeignKeyConstraint constraintName="RELATED_FEATURES_SOURCE_FEATURE_ID_FKEY"
+            baseTableName="RELATED_FEATURES" baseColumnNames="SOURCE_FEATURE_ID"
             referencedTableName="FEATURES" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
 
-        <createIndex tableName="RELATEDFEATURES" indexName="RELATEDFEATURES_TARGET_FEATURE_ID">
+        <createIndex tableName="RELATED_FEATURES" indexName="RELATED_FEATURES_TARGET_FEATURE_ID">
             <column name="TARGET_FEATURE_ID" />
         </createIndex>
-        <addForeignKeyConstraint constraintName="RELATEDFEATURES_TARGET_FEATURE_ID_FKEY"
-            baseTableName="RELATEDFEATURES" baseColumnNames="TARGET_FEATURE_ID"
+        <addForeignKeyConstraint constraintName="RELATED_FEATURES_TARGET_FEATURE_ID_FKEY"
+            baseTableName="RELATED_FEATURES" baseColumnNames="TARGET_FEATURE_ID"
             referencedTableName="FEATURES" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
     </changeSet>

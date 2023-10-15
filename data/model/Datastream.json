@@ -1,0 +1,59 @@
+{
+  "entityTypes": [
+    {
+      "name": "Datastream",
+      "plural": "Datastreams",
+      "adminOnly": false,
+      "table": "DATASTREAMS",
+      "entityProperties": [],
+      "navigationProperties": [
+        {
+          "name": "UltimateFeatureOfInterest",
+          "entitySet": false,
+          "entityType": "FeatureOfInterest",
+          "required": false,
+          "symmetrical": false,
+          "priority": 0,
+          "inverse": {
+            "name": "Datastreams",
+            "entitySet": true,
+            "required": false,
+            "priority": 0,
+            "annotations": []
+          },
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
+              "field": "ULTIMATE_FEATURE_ID",
+              "otherTable": "FEATURES",
+              "otherField": "ID"
+            }
+          ],
+          "annotations": []
+        },
+        {
+          "name": "ObservationProcedure",
+          "entitySet": false,
+          "entityType": "ObservationProcedure",
+          "required": false,
+          "symmetrical": false,
+          "priority": 0,
+          "inverse": {
+            "name": "Datastreams",
+            "entitySet": true,
+            "required": false,
+            "priority": 0
+          },
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
+              "field": "OBSERVATION_PROCEDURE_ID",
+              "otherTable": "OBSERVATION_PROCEDURES",
+              "otherField": "ID"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

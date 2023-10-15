@@ -1,0 +1,114 @@
+{
+  "conformance": ["https://github.com/hylkevds/FROST-Server.Plugin.WaterQualityIE"],
+  "entityTypes": [
+    {
+      "name": "Deployment",
+      "plural": "Deployments",
+      "adminOnly": false,
+      "table": "DEPLOYMENTS",
+      "entityProperties": [
+        {
+          "name": "id",
+          "aliases": [
+            "@iot.id"
+          ],
+          "type": "Id",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperId",
+              "field": "ID"
+            }
+          ]
+        },
+        {
+          "name": "description",
+          "type": "Edm.String",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
+              "field": "DESCRIPTION"
+            }
+          ]
+        },
+        {
+          "name": "name",
+          "type": "Edm.String",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
+              "field": "NAME"
+            }
+          ]
+        },
+        {
+          "name": "properties",
+          "type": "Object",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperJson",
+              "field": "PROPERTIES",
+              "isMap": true
+            }
+          ]
+        },
+        {
+          "name": "time",
+          "type": "TimeInterval",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperTimeInterval",
+              "fieldStart": "TIME_START",
+              "fieldEnd": "TIME_END"
+            }
+          ]
+        }
+      ],
+      "navigationProperties": [
+        {
+          "name": "Sensor",
+          "entitySet": false,
+          "entityType": "Sensor",
+          "required": true,
+          "symmetrical": false,
+          "priority": 0,
+          "inverse": {
+            "name": "Deployments",
+            "entitySet": true,
+            "required": false,
+            "priority": 0
+          },
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
+              "field": "SENSOR_ID",
+              "otherTable": "SENSORS",
+              "otherField": "ID"
+            }
+          ]
+        },
+        {
+          "name": "Thing",
+          "entitySet": false,
+          "entityType": "Thing",
+          "required": true,
+          "symmetrical": false,
+          "priority": 0,
+          "inverse": {
+            "name": "Deployments",
+            "entitySet": true,
+            "required": false,
+            "priority": 0
+          },
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
+              "field": "THING_ID",
+              "otherTable": "THINGS",
+              "otherField": "ID"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

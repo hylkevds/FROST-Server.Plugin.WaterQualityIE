@@ -1,0 +1,90 @@
+{
+  "conformance": [],
+  "simplePropertyTypes": [],
+  "entityTypes": [
+    {
+      "name": "RelatedFeature",
+      "plural": "RelatedFeatures",
+      "adminOnly": false,
+      "table": "RELATED_FEATURES",
+      "entityProperties": [
+        {
+          "name": "id",
+          "aliases": [
+            "@iot.id"
+          ],
+          "type": "Id",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperId",
+              "field": "ID"
+            }
+          ],
+          "annotations": []
+        },
+        {
+          "name": "role",
+          "type": "Edm.String",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
+              "field": "ROLE"
+            }
+          ],
+          "annotations": []
+        }
+      ],
+      "navigationProperties": [
+        {
+          "name": "Source",
+          "entitySet": false,
+          "entityType": "FeatureOfInterest",
+          "required": true,
+          "symmetrical": false,
+          "priority": 0,
+          "inverse": {
+            "name": "TargetRelatedFeatures",
+            "entitySet": true,
+            "required": false,
+            "priority": 0,
+            "annotations": []
+          },
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
+              "field": "SOURCE_FEATURE_ID",
+              "otherTable": "FEATURES",
+              "otherField": "ID"
+            }
+          ],
+          "annotations": []
+        },
+        {
+          "name": "Target",
+          "entitySet": false,
+          "entityType": "FeatureOfInterest",
+          "required": true,
+          "symmetrical": false,
+          "priority": 0,
+          "inverse": {
+            "name": "SourceRelatedFeatures",
+            "entitySet": true,
+            "required": false,
+            "priority": 0,
+            "annotations": []
+          },
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
+              "field": "TARGET_FEATURE_ID",
+              "otherTable": "FEATURES",
+              "otherField": "ID"
+            }
+          ],
+          "annotations": []
+        }
+      ],
+      "annotations": []
+    }
+  ]
+}
