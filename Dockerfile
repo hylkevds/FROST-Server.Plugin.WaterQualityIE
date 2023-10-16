@@ -1,6 +1,7 @@
 FROM fraunhoferiosb/frost-server-http:2.2.0
 
 COPY data ${CATALINA_HOME}/webapps/FROST-Server/WEB-INF/data
+COPY index.html ${CATALINA_HOME}/webapps/FROST-Server/
 
 ENV plugins_coreModel_enable=true
 ENV plugins_actuation_enable=false
