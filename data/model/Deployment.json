@@ -21,22 +21,22 @@
           ]
         },
         {
-          "name": "description",
-          "type": "Edm.String",
-          "handlers": [
-            {
-              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
-              "field": "DESCRIPTION"
-            }
-          ]
-        },
-        {
           "name": "name",
           "type": "Edm.String",
           "handlers": [
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
               "field": "NAME"
+            }
+          ]
+        },
+        {
+          "name": "description",
+          "type": "Edm.String",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
+              "field": "DESCRIPTION"
             }
           ]
         },
@@ -52,11 +52,21 @@
           ]
         },
         {
-          "name": "time",
-          "type": "TimeInterval",
+          "name": "reason",
+          "type": "Edm.String",
           "handlers": [
             {
-              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperTimeInterval",
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
+              "field": "REASON"
+            }
+          ]
+        },
+        {
+          "name": "deploymentTime",
+          "type": "TimeValue",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperTimeValue",
               "fieldStart": "TIME_START",
               "fieldEnd": "TIME_END"
             }

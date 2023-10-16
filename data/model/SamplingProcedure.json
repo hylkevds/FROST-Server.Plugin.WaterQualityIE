@@ -23,6 +23,17 @@
           "annotations": []
         },
         {
+          "name": "name",
+          "type": "Edm.String",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
+              "field": "NAME"
+            }
+          ],
+          "annotations": []
+        },
+        {
           "name": "description",
           "type": "Edm.String",
           "handlers": [
@@ -34,23 +45,12 @@
           "annotations": []
         },
         {
-          "name": "link",
+          "name": "definition",
           "type": "Edm.String",
           "handlers": [
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
-              "field": "LINK"
-            }
-          ],
-          "annotations": []
-        },
-        {
-          "name": "name",
-          "type": "Edm.String",
-          "handlers": [
-            {
-              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
-              "field": "NAME"
+              "field": "DEFINITION"
             }
           ],
           "annotations": []

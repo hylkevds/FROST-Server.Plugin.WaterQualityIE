@@ -57,6 +57,7 @@
             <column name="THING_ID" type="${idType-Thing}" />
             <column name="NAME" type="TEXT" />
             <column name="DESCRIPTION" type="TEXT" />
+            <column name="REASON" type="TEXT" />
             <column name="TIME_START" type="TIMESTAMP WITH TIME ZONE" />
             <column name="TIME_END" type="TIMESTAMP WITH TIME ZONE" />
             <column name="PROPERTIES" type="JSONB" />
@@ -83,9 +84,9 @@
         <preConditions onFail="MARK_RAN">
             <changeLogPropertyDefined property="id-ObservationProcedure" value="LONG" />
         </preConditions>
-        <createTable tableName="OBSERVATION_PROCEDURES">
+        <createTable tableName="OBSERVING_PROCEDURES">
             <column name="ID" type="${idTypeLong}" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="OBSERVATION_PROCEDURES_PKEY" />
+                <constraints primaryKey="true" primaryKeyName="OBSERVING_PROCEDURES_PKEY" />
             </column>
         </createTable>
     </changeSet>
@@ -96,35 +97,34 @@
                 <changeLogPropertyDefined property="id-ObservationProcedure" value="UUID" />
             </or>
         </preConditions>
-        <createTable tableName="OBSERVATION_PROCEDURES">
+        <createTable tableName="OBSERVING_PROCEDURES">
             <column name="ID" type="${idType-ObservationProcedure}" defaultValueComputed="${defaultValueComputed-ObservationProcedure}">
-                <constraints primaryKey="true" primaryKeyName="OBSERVATION_PROCEDURES_PKEY" />
+                <constraints primaryKey="true" primaryKeyName="OBSERVING_PROCEDURES_PKEY" />
             </column>
         </createTable>
     </changeSet>
     <changeSet author="IOSB" id="2023-10-10_ObservationProcedure-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
-        <addColumn tableName="OBSERVATION_PROCEDURES">
+        <addColumn tableName="OBSERVING_PROCEDURES">
             <column name="NAME" type="TEXT" />
             <column name="DESCRIPTION" type="TEXT" />
-            <column name="ENCODING_TYPE" type="TEXT" />
-            <column name="METADATA" type="TEXT" />
+            <column name="DEFINITION" type="TEXT" />
             <column name="PROPERTIES" type="JSONB" />
         </addColumn>
         <addColumn tableName="DATASTREAMS">
-            <column name="OBSERVATION_PROCEDURE_ID" type="${idType-ObservationProcedure}" />
+            <column name="OBSERVING_PROCEDURE_ID" type="${idType-ObservationProcedure}" />
         </addColumn>
 
-        <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_OBSERVATION_PROCEDURE_ID">
-            <column name="OBSERVATION_PROCEDURE_ID" />
+        <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_OBSERVING_PROCEDURE_ID">
+            <column name="OBSERVING_PROCEDURE_ID" />
         </createIndex>
-        <addForeignKeyConstraint constraintName="DATASTREAMS_OBSERVATION_PROCEDURE_ID_FKEY"
-            baseTableName="DATASTREAMS" baseColumnNames="OBSERVATION_PROCEDURE_ID"
-            referencedTableName="OBSERVATION_PROCEDURES" referencedColumnNames="ID"
+        <addForeignKeyConstraint constraintName="DATASTREAMS_OBSERVING_PROCEDURE_ID_FKEY"
+            baseTableName="DATASTREAMS" baseColumnNames="OBSERVING_PROCEDURE_ID"
+            referencedTableName="OBSERVING_PROCEDURES" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
     </changeSet>
 
     <changeSet author="scf" id="2023-10-10_ObservationProcedure-Sensor" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
-        <createTable tableName="SENSOR_OBSERVATION_PROCEDURE">
+        <createTable tableName="SENSOR_OBSERVING_PROCEDURE">
             <column name="SENSOR_ID" type="${idType-Sensor}">
                 <constraints nullable="false" />
             </column>
@@ -132,22 +132,22 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
-        <addPrimaryKey columnNames="SENSOR_ID, PROCEDURE_ID" constraintName="SENSOR_OBSERVATION_PROCEDURE_PKEY" tableName="SENSOR_OBSERVATION_PROCEDURE" />
+        <addPrimaryKey columnNames="SENSOR_ID, PROCEDURE_ID" constraintName="SENSOR_OBSERVING_PROCEDURE_PKEY" tableName="SENSOR_OBSERVING_PROCEDURE" />
 
-        <createIndex tableName="SENSOR_OBSERVATION_PROCEDURE" indexName="SENSOR_OBSERVATION_PROCEDURE_SENSOR_ID">
+        <createIndex tableName="SENSOR_OBSERVING_PROCEDURE" indexName="SENSOR_OBSERVING_PROCEDURE_SENSOR_ID">
             <column name="SENSOR_ID" />
         </createIndex>
-        <addForeignKeyConstraint constraintName="SENSOR_OBSERVATION_PROCEDURE_SENSOR_ID_FKEY"
-            baseTableName="SENSOR_OBSERVATION_PROCEDURE" baseColumnNames="SENSOR_ID"
+        <addForeignKeyConstraint constraintName="SENSOR_OBSERVING_PROCEDURE_SENSOR_ID_FKEY"
+            baseTableName="SENSOR_OBSERVING_PROCEDURE" baseColumnNames="SENSOR_ID"
             referencedTableName="SENSORS" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
 
-        <createIndex tableName="SENSOR_OBSERVATION_PROCEDURE" indexName="SENSOR_OBSERVATION_PROCEDURE_PROCEDURE_ID">
+        <createIndex tableName="SENSOR_OBSERVING_PROCEDURE" indexName="SENSOR_OBSERVING_PROCEDURE_PROCEDURE_ID">
             <column name="PROCEDURE_ID" />
         </createIndex>
-        <addForeignKeyConstraint constraintName="SENSOR_OBSERVATION_PROCEDURE_PROCEDURE_ID_FKEY"
-            baseTableName="SENSOR_OBSERVATION_PROCEDURE" baseColumnNames="PROCEDURE_ID"
-            referencedTableName="OBSERVATION_PROCEDURES" referencedColumnNames="ID"
+        <addForeignKeyConstraint constraintName="SENSOR_OBSERVING_PROCEDURE_PROCEDURE_ID_FKEY"
+            baseTableName="SENSOR_OBSERVING_PROCEDURE" baseColumnNames="PROCEDURE_ID"
+            referencedTableName="OBSERVING_PROCEDURES" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
     </changeSet>
 
@@ -180,7 +180,7 @@
         <addColumn tableName="SAMPLING_PROCEDURES">
             <column name="NAME" type="TEXT" />
             <column name="DESCRIPTION" type="TEXT" />
-            <column name="LINK" type="TEXT" />
+            <column name="DEFINITION" type="TEXT" />
             <column name="PROPERTIES" type="JSONB" />
         </addColumn>
     </changeSet>
@@ -214,9 +214,8 @@
         <addColumn tableName="SAMPLERS">
             <column name="PROCEDURE_ID" type="${idType-SamplingProcedure}" />
             <column name="NAME" type="TEXT" />
-            <column name="SAMPLER_TYPE" type="TEXT" />
             <column name="DESCRIPTION" type="TEXT" />
-            <column name="LINK" type="TEXT" />
+            <column name="SAMPLER_TYPE" type="TEXT" />
             <column name="PROPERTIES" type="JSONB" />
         </addColumn>
         <createIndex tableName="SAMPLERS" indexName="SAMPLERS_PROCEDURE_ID">
@@ -348,7 +347,7 @@
         <addColumn tableName="PREPARATION_PROCEDURES">
             <column name="NAME" type="TEXT" />
             <column name="DESCRIPTION" type="TEXT" />
-            <column name="LINK" type="TEXT" />
+            <column name="DEFINITION" type="TEXT" />
             <column name="PROPERTIES" type="JSONB" />
         </addColumn>
     </changeSet>

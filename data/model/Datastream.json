@@ -32,9 +32,9 @@
           "annotations": []
         },
         {
-          "name": "ObservationProcedure",
+          "name": "ObservingProcedure",
           "entitySet": false,
-          "entityType": "ObservationProcedure",
+          "entityType": "ObservingProcedure",
           "required": false,
           "symmetrical": false,
           "priority": 0,
@@ -47,8 +47,8 @@
           "handlers": [
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
-              "field": "OBSERVATION_PROCEDURE_ID",
-              "otherTable": "OBSERVATION_PROCEDURES",
+              "field": "OBSERVING_PROCEDURE_ID",
+              "otherTable": "OBSERVING_PROCEDURES",
               "otherField": "ID"
             }
           ]

@@ -3,10 +3,10 @@
   "simplePropertyTypes": [],
   "entityTypes": [
     {
-      "name": "ObservationProcedure",
-      "plural": "ObservationProcedures",
+      "name": "ObservingProcedure",
+      "plural": "ObservingProcedures",
       "adminOnly": false,
-      "table": "OBSERVATION_PROCEDURES",
+      "table": "OBSERVING_PROCEDURES",
       "entityProperties": [
         {
           "name": "id",
@@ -23,6 +23,17 @@
           "annotations": []
         },
         {
+          "name": "name",
+          "type": "Edm.String",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
+              "field": "NAME"
+            }
+          ],
+          "annotations": []
+        },
+        {
           "name": "description",
           "type": "Edm.String",
           "handlers": [
@@ -34,34 +45,12 @@
           "annotations": []
         },
         {
-          "name": "encodingType",
+          "name": "definition",
           "type": "Edm.String",
           "handlers": [
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
-              "field": "ENCODING_TYPE"
-            }
-          ],
-          "annotations": []
-        },
-        {
-          "name": "metadata",
-          "type": "Edm.String",
-          "handlers": [
-            {
-              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
-              "field": "METADATA"
-            }
-          ],
-          "annotations": []
-        },
-        {
-          "name": "name",
-          "type": "Edm.String",
-          "handlers": [
-            {
-              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
-              "field": "NAME"
+              "field": "DEFINITION"
             }
           ],
           "annotations": []
@@ -88,7 +77,7 @@
           "symmetrical": false,
           "priority": 0,
           "inverse": {
-            "name": "ObservationProcedures",
+            "name": "ObservingProcedures",
             "entitySet": true,
             "required": false,
             "priority": 0,

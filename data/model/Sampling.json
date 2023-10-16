@@ -23,23 +23,12 @@
           "annotations": []
         },
         {
-          "name": "atDepth",
-          "type": "Edm.Decimal",
-          "handlers": [
-            {
-              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperBigDecimal",
-              "field": "AT_DEPTH"
-            }
-          ],
-          "annotations": []
-        },
-        {
-          "name": "depthUom",
+          "name": "name",
           "type": "Edm.String",
           "handlers": [
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
-              "field": "DEPTH_UOM"
+              "field": "NAME"
             }
           ],
           "annotations": []
@@ -67,35 +56,13 @@
           "annotations": []
         },
         {
-          "name": "geom",
+          "name": "samplingLocation",
           "type": "Edm.Geometry",
           "handlers": [
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperGeometry",
-              "fieldSource": "",
+              "fieldSource": "LOCATION",
               "fieldGeom": "GEOM"
-            }
-          ],
-          "annotations": []
-        },
-        {
-          "name": "location",
-          "type": "Edm.String",
-          "handlers": [
-            {
-              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
-              "field": "LOCATION"
-            }
-          ],
-          "annotations": []
-        },
-        {
-          "name": "name",
-          "type": "Edm.String",
-          "handlers": [
-            {
-              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
-              "field": "NAME"
             }
           ],
           "annotations": []
@@ -113,11 +80,33 @@
           "annotations": []
         },
         {
-          "name": "samplingTime",
-          "type": "TimeInterval",
+          "name": "atDepth",
+          "type": "Edm.Decimal",
           "handlers": [
             {
-              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperTimeInterval",
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperBigDecimal",
+              "field": "AT_DEPTH"
+            }
+          ],
+          "annotations": []
+        },
+        {
+          "name": "depthUom",
+          "type": "Edm.String",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
+              "field": "DEPTH_UOM"
+            }
+          ],
+          "annotations": []
+        },
+        {
+          "name": "samplingTime",
+          "type": "TimeValue",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperTimeValue",
               "fieldStart": "SAMPLING_TIME_START",
               "fieldEnd": "SAMPLING_TIME_END"
             }
