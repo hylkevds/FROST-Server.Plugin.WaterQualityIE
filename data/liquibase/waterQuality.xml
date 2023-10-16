@@ -149,7 +149,6 @@
             baseTableName="SENSOR_OBSERVATION_PROCEDURE" baseColumnNames="PROCEDURE_ID"
             referencedTableName="OBSERVATION_PROCEDURES" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
-
     </changeSet>
 
 

@@ -87,7 +87,7 @@
           ]
         },
         {
-          "name": "Thing",
+          "name": "Host",
           "entitySet": false,
           "entityType": "Thing",
           "required": true,
