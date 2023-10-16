@@ -7,7 +7,7 @@ See the [scripts/docker-compose.yaml](scripts/docker-compose.yaml) for examples.
 
 ## Data Model
 
-![Data Model](Datamodel-SensorThingsApi-WaterQualityIE.drawio.png)
+![Data Model](Datamodel-SensorThingsApi-WaterQualityIE-implemented.drawio.png)
 
 ## Demo Service
 
