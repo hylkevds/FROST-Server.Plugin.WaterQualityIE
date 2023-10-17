@@ -10,8 +10,8 @@
 
     <property name="id-Deployment" value="LONG" global="false" />
     <property name="idType-Deployment" value="BIGINT" global="false" />
-    <property name="id-ObservationProcedure" value="LONG" global="false" />
-    <property name="idType-ObservationProcedure" value="BIGINT" global="false" />
+    <property name="id-ObservingProcedure" value="LONG" global="false" />
+    <property name="idType-ObservingProcedure" value="BIGINT" global="false" />
     <property name="id-SamplingProcedure" value="LONG" global="false" />
     <property name="idType-SamplingProcedure" value="BIGINT" global="false" />
     <property name="id-Sampler" value="LONG" global="false" />
@@ -79,10 +79,10 @@
     </changeSet>
 
 
-    <!-- Table for ObservationProcedure -->
-    <changeSet author="scf" id="2023-10-10_ObservationProcedure-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <!-- Table for ObservingProcedure -->
+    <changeSet author="scf" id="2023-10-10_ObservingProcedure-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
-            <changeLogPropertyDefined property="id-ObservationProcedure" value="LONG" />
+            <changeLogPropertyDefined property="id-ObservingProcedure" value="LONG" />
         </preConditions>
         <createTable tableName="OBSERVING_PROCEDURES">
             <column name="ID" type="${idTypeLong}" autoIncrement="true">
@@ -90,20 +90,20 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="scf" id="2023-10-10_ObservationProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="scf" id="2023-10-10_ObservingProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <or>
-                <changeLogPropertyDefined property="id-ObservationProcedure" value="STRING" />
-                <changeLogPropertyDefined property="id-ObservationProcedure" value="UUID" />
+                <changeLogPropertyDefined property="id-ObservingProcedure" value="STRING" />
+                <changeLogPropertyDefined property="id-ObservingProcedure" value="UUID" />
             </or>
         </preConditions>
         <createTable tableName="OBSERVING_PROCEDURES">
-            <column name="ID" type="${idType-ObservationProcedure}" defaultValueComputed="${defaultValueComputed-ObservationProcedure}">
+            <column name="ID" type="${idType-ObservingProcedure}" defaultValueComputed="${defaultValueComputed-ObservingProcedure}">
                 <constraints primaryKey="true" primaryKeyName="OBSERVING_PROCEDURES_PKEY" />
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="IOSB" id="2023-10-10_ObservationProcedure-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_ObservingProcedure-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <addColumn tableName="OBSERVING_PROCEDURES">
             <column name="NAME" type="TEXT" />
             <column name="DESCRIPTION" type="TEXT" />
@@ -111,7 +111,7 @@
             <column name="PROPERTIES" type="JSONB" />
         </addColumn>
         <addColumn tableName="DATASTREAMS">
-            <column name="OBSERVING_PROCEDURE_ID" type="${idType-ObservationProcedure}" />
+            <column name="OBSERVING_PROCEDURE_ID" type="${idType-ObservingProcedure}" />
         </addColumn>
 
         <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_OBSERVING_PROCEDURE_ID">
@@ -123,12 +123,12 @@
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
     </changeSet>
 
-    <changeSet author="scf" id="2023-10-10_ObservationProcedure-Sensor" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="scf" id="2023-10-10_ObservingProcedure-Sensor" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <createTable tableName="SENSOR_OBSERVING_PROCEDURE">
             <column name="SENSOR_ID" type="${idType-Sensor}">
                 <constraints nullable="false" />
             </column>
-            <column name="PROCEDURE_ID" type="${idType-ObservationProcedure}">
+            <column name="PROCEDURE_ID" type="${idType-ObservingProcedure}">
                 <constraints nullable="false" />
             </column>
         </createTable>

@@ -87,7 +87,7 @@
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperManyToMany",
               "field": "ID",
-              "linkTable": "SENSOR_OBSERVATION_PROCEDURE",
+              "linkTable": "SENSOR_OBSERVING_PROCEDURE",
               "linkOurField": "PROCEDURE_ID",
               "linkOtherField": "SENSOR_ID",
               "otherTable": "SENSORS",
