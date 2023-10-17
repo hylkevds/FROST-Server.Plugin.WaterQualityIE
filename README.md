@@ -11,4 +11,4 @@ See the [scripts/docker-compose.yaml](scripts/docker-compose.yaml) for examples.
 
 ## Demo Service
 
-An example demo service can be found [here](https://ogc-demo.k8s.ilt-dmz.iosb.fraunhofer.de/FROST-WaterQualityIE/)
+An example demo service can be found [here](https://ogc-demo.k8s.ilt-dmz.iosb.fraunhofer.de/FROST-WaterQuality/)
