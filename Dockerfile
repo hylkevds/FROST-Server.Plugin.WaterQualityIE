@@ -10,10 +10,10 @@ ENV plugins_openApi_enable=true
 ENV plugins_odata_enable=true
 ENV plugins_modelLoader_enable=true
 ENV plugins_modelLoader_modelPath='/usr/local/tomcat/webapps/FROST-Server/WEB-INF/data/model'
-ENV plugins_modelLoader_modelFiles='Datastream.json, Deployment.json, FeatureType.json, ObservingProcedure.json, PreparationProcedure.json, PreparationStep.json, RelatedFeature.json, Sampler.json, Sampling.json, SamplingProcedure.json'
+ENV plugins_modelLoader_modelFiles='Datastream.json, Deployment.json, FeatureType.json, ObservingProcedure.json, PreparationProcedure.json, PreparationStep.json, RelatedDatastream.json, RelatedFeature.json, RelatedObservation.json, RelatedThing.json, RelationRole.json, Sampler.json, Sampling.json, SamplingProcedure.json'
 ENV plugins_modelLoader_securityPath='/usr/local/tomcat/webapps/FROST-Server/WEB-INF/data/security'
 ENV plugins_modelLoader_securityFiles=''
 ENV plugins_modelLoader_liquibasePath='/usr/local/tomcat/webapps/FROST-Server/WEB-INF/data/liquibase'
-ENV plugins_modelLoader_liquibaseFiles='waterQuality.xml'
+ENV plugins_modelLoader_liquibaseFiles='waterQuality.xml, relations.xml'
 
 USER tomcat

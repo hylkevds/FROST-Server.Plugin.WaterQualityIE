@@ -1,0 +1,275 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- Table for RelationRole -->
+    <changeSet author="IOSB" id="2023-10-10_RelationRole-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-RelationRole" value="LONG" />
+        </preConditions>
+        <createTable tableName="RELATION_ROLES">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="RELATION_ROLES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_RelationRole-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-RelationRole" value="STRING" />
+                <changeLogPropertyDefined property="id-RelationRole" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="RELATION_ROLES">
+            <column name="ID" type="${idType-RelationRole}" defaultValueComputed="${defaultValueComputed-RelationRole}">
+                <constraints primaryKey="true" primaryKeyName="RELATION_ROLES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-RelationRole-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="RELATION_ROLES">
+            <column name="NAME" type="TEXT" />
+            <column name="DEFINITION" type="TEXT" />
+            <column name="INVERSE_NAME" type="TEXT" />
+            <column name="INVERSE_DEFINITION" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT" />
+            <column name="PROPERTIES" type="JSONB" />
+        </addColumn>
+    </changeSet>
+
+
+    <!-- Table for RelatedFeature -->
+    <changeSet author="IOSB" id="2023-10-10_RelatedFeature-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-RelatedFeature" value="LONG" />
+        </preConditions>
+        <createTable tableName="RELATED_FEATURES">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="RELATED_FEATURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_RelatedFeature-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-RelatedFeature" value="STRING" />
+                <changeLogPropertyDefined property="id-RelatedFeature" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="RELATED_FEATURES">
+            <column name="ID" type="${idType-RelatedFeature}" defaultValueComputed="${defaultValueComputed-RelatedFeature}">
+                <constraints primaryKey="true" primaryKeyName="RELATED_FEATURES_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_RelatedFeature-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="RELATED_FEATURES">
+            <column name="SOURCE_FEATURE_ID" type="${idType-Feature}" />
+            <column name="TARGET_FEATURE_ID" type="${idType-Feature}" />
+            <column name="RELATION_ROLE_ID" type="${idType-RelationRole}" />
+            <column name="EXTERNAL_TARGET" type="TEXT" />
+        </addColumn>
+
+        <createIndex tableName="RELATED_FEATURES" indexName="RELATED_FEATURES_RELATION_ROLE_ID">
+            <column name="RELATION_ROLE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_FEATURES_RELATION_ROLE_ID_FKEY"
+            baseTableName="RELATED_FEATURES" baseColumnNames="RELATION_ROLE_ID"
+            referencedTableName="RELATION_ROLES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="RELATED_FEATURES" indexName="RELATED_FEATURES_SOURCE_FEATURE_ID">
+            <column name="SOURCE_FEATURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_FEATURES_SOURCE_FEATURE_ID_FKEY"
+            baseTableName="RELATED_FEATURES" baseColumnNames="SOURCE_FEATURE_ID"
+            referencedTableName="FEATURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="RELATED_FEATURES" indexName="RELATED_FEATURES_TARGET_FEATURE_ID">
+            <column name="TARGET_FEATURE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_FEATURES_TARGET_FEATURE_ID_FKEY"
+            baseTableName="RELATED_FEATURES" baseColumnNames="TARGET_FEATURE_ID"
+            referencedTableName="FEATURES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+    <!-- Table for RelatedThing -->
+    <changeSet author="IOSB" id="2023-10-10_RelatedThing-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-RelatedThing" value="LONG" />
+        </preConditions>
+        <createTable tableName="RELATED_THINGS">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="RELATED_THINGS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_RelatedThing-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-RelatedThing" value="STRING" />
+                <changeLogPropertyDefined property="id-RelatedThing" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="RELATED_THINGS">
+            <column name="ID" type="${idType-RelatedThing}" defaultValueComputed="${defaultValueComputed-RelatedThing}">
+                <constraints primaryKey="true" primaryKeyName="RELATED_THINGS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_RelatedThing-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="RELATED_THINGS">
+            <column name="SOURCE_THING_ID" type="${idType-Thing}" />
+            <column name="TARGET_THING_ID" type="${idType-Thing}" />
+            <column name="RELATION_ROLE_ID" type="${idType-RelationRole}" />
+            <column name="EXTERNAL_TARGET" type="TEXT" />
+        </addColumn>
+
+        <createIndex tableName="RELATED_THINGS" indexName="RELATED_THINGS_RELATION_ROLE_ID">
+            <column name="RELATION_ROLE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_THINGS_RELATION_ROLE_ID_FKEY"
+            baseTableName="RELATED_THINGS" baseColumnNames="RELATION_ROLE_ID"
+            referencedTableName="RELATION_ROLES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="RELATED_THINGS" indexName="RELATED_THINGS_SOURCE_THING_ID">
+            <column name="SOURCE_THING_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_THINGS_SOURCE_THING_ID_FKEY"
+            baseTableName="RELATED_THINGS" baseColumnNames="SOURCE_THING_ID"
+            referencedTableName="THINGS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="RELATED_THINGS" indexName="RELATED_THINGS_TARGET_THING_ID">
+            <column name="TARGET_THING_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_THINGS_TARGET_THING_ID_FKEY"
+            baseTableName="RELATED_THINGS" baseColumnNames="TARGET_THING_ID"
+            referencedTableName="THINGS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+    <!-- Table for RelatedDatastream -->
+    <changeSet author="IOSB" id="2023-10-10_RelatedDatastream-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-RelatedDatastream" value="LONG" />
+        </preConditions>
+        <createTable tableName="RELATED_DATASTREAMS">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="RELATED_DATASTREAMS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_RelatedDatastream-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-RelatedDatastream" value="STRING" />
+                <changeLogPropertyDefined property="id-RelatedDatastream" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="RELATED_DATASTREAMS">
+            <column name="ID" type="${idType-RelatedDatastream}" defaultValueComputed="${defaultValueComputed-RelatedDatastream}">
+                <constraints primaryKey="true" primaryKeyName="RELATED_DATASTREAMS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_RelatedDatastream-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="RELATED_DATASTREAMS">
+            <column name="SOURCE_DATASTREAM_ID" type="${idType-Datastream}" />
+            <column name="TARGET_DATASTREAM_ID" type="${idType-Datastream}" />
+            <column name="RELATION_ROLE_ID" type="${idType-RelationRole}" />
+            <column name="EXTERNAL_TARGET" type="TEXT" />
+        </addColumn>
+
+        <createIndex tableName="RELATED_DATASTREAMS" indexName="RELATED_DATASTREAMS_RELATION_ROLE_ID">
+            <column name="RELATION_ROLE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_DATASTREAMS_RELATION_ROLE_ID_FKEY"
+            baseTableName="RELATED_DATASTREAMS" baseColumnNames="RELATION_ROLE_ID"
+            referencedTableName="RELATION_ROLES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="RELATED_DATASTREAMS" indexName="RELATED_DATASTREAMS_SOURCE_DATASTREAM_ID">
+            <column name="SOURCE_DATASTREAM_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_DATASTREAMS_SOURCE_DATASTREAM_ID_FKEY"
+            baseTableName="RELATED_DATASTREAMS" baseColumnNames="SOURCE_DATASTREAM_ID"
+            referencedTableName="DATASTREAMS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="RELATED_DATASTREAMS" indexName="RELATED_DATASTREAMS_TARGET_DATASTREAM_ID">
+            <column name="TARGET_DATASTREAM_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_DATASTREAMS_TARGET_DATASTREAM_ID_FKEY"
+            baseTableName="RELATED_DATASTREAMS" baseColumnNames="TARGET_DATASTREAM_ID"
+            referencedTableName="DATASTREAMS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+    <!-- Table for RelatedObservation -->
+    <changeSet author="IOSB" id="2023-10-10_RelatedObservation-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <changeLogPropertyDefined property="id-RelatedObservation" value="LONG" />
+        </preConditions>
+        <createTable tableName="RELATED_OBSERVATIONS">
+            <column name="ID" type="${idTypeLong}" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="RELATED_OBSERVATIONS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_RelatedObservation-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <changeLogPropertyDefined property="id-RelatedObservation" value="STRING" />
+                <changeLogPropertyDefined property="id-RelatedObservation" value="UUID" />
+            </or>
+        </preConditions>
+        <createTable tableName="RELATED_OBSERVATIONS">
+            <column name="ID" type="${idType-RelatedObservation}" defaultValueComputed="${defaultValueComputed-RelatedObservation}">
+                <constraints primaryKey="true" primaryKeyName="RELATED_OBSERVATIONS_PKEY" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="IOSB" id="2023-10-10_RelatedObservation-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="RELATED_OBSERVATIONS">
+            <column name="SOURCE_OBSERVATION_ID" type="${idType-Observation}" />
+            <column name="TARGET_OBSERVATION_ID" type="${idType-Observation}" />
+            <column name="RELATION_ROLE_ID" type="${idType-RelationRole}" />
+            <column name="EXTERNAL_TARGET" type="TEXT" />
+        </addColumn>
+
+        <createIndex tableName="RELATED_OBSERVATIONS" indexName="RELATED_OBSERVATIONS_RELATION_ROLE_ID">
+            <column name="RELATION_ROLE_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_OBSERVATIONS_RELATION_ROLE_ID_FKEY"
+            baseTableName="RELATED_OBSERVATIONS" baseColumnNames="RELATION_ROLE_ID"
+            referencedTableName="RELATION_ROLES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="RELATED_OBSERVATIONS" indexName="RELATED_OBSERVATIONS_SOURCE_OBSERVATION_ID">
+            <column name="SOURCE_OBSERVATION_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_OBSERVATIONS_SOURCE_OBSERVATION_ID_FKEY"
+            baseTableName="RELATED_OBSERVATIONS" baseColumnNames="SOURCE_OBSERVATION_ID"
+            referencedTableName="OBSERVATIONS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+
+        <createIndex tableName="RELATED_OBSERVATIONS" indexName="RELATED_OBSERVATIONS_TARGET_OBSERVATION_ID">
+            <column name="TARGET_OBSERVATION_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="RELATED_OBSERVATIONS_TARGET_OBSERVATION_ID_FKEY"
+            baseTableName="RELATED_OBSERVATIONS" baseColumnNames="TARGET_OBSERVATION_ID"
+            referencedTableName="OBSERVATIONS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
+</databaseChangeLog>

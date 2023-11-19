@@ -3,10 +3,10 @@
   "simplePropertyTypes": [],
   "entityTypes": [
     {
-      "name": "RelatedFeature",
-      "plural": "RelatedFeatures",
+      "name": "RelatedThing",
+      "plural": "RelatedThings",
       "adminOnly": false,
-      "table": "RELATED_FEATURES",
+      "table": "RELATED_THINGS",
       "entityProperties": [
         {
           "name": "id",
@@ -39,12 +39,12 @@
         {
           "name": "Source",
           "entitySet": false,
-          "entityType": "FeatureOfInterest",
+          "entityType": "Thing",
           "required": true,
           "symmetrical": false,
           "priority": 0,
           "inverse": {
-            "name": "TargetRelatedFeatures",
+            "name": "TargetRelatedThings",
             "entitySet": true,
             "required": false,
             "priority": 0,
@@ -53,8 +53,8 @@
           "handlers": [
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
-              "field": "SOURCE_FEATURE_ID",
-              "otherTable": "FEATURES",
+              "field": "SOURCE_THING_ID",
+              "otherTable": "THINGS",
               "otherField": "ID"
             }
           ],
@@ -63,12 +63,12 @@
         {
           "name": "Target",
           "entitySet": false,
-          "entityType": "FeatureOfInterest",
+          "entityType": "Thing",
           "required": false,
           "symmetrical": false,
           "priority": 0,
           "inverse": {
-            "name": "SourceRelatedFeatures",
+            "name": "SourceRelatedThings",
             "entitySet": true,
             "required": false,
             "priority": 0,
@@ -77,8 +77,8 @@
           "handlers": [
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
-              "field": "TARGET_FEATURE_ID",
-              "otherTable": "FEATURES",
+              "field": "TARGET_THING_ID",
+              "otherTable": "THINGS",
               "otherField": "ID"
             }
           ],
@@ -92,7 +92,7 @@
           "symmetrical": false,
           "priority": 0,
           "inverse": {
-            "name": "RelatedFeatures",
+            "name": "RelatedThings",
             "entitySet": true,
             "required": false,
             "priority": 0,

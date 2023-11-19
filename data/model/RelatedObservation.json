@@ -3,10 +3,10 @@
   "simplePropertyTypes": [],
   "entityTypes": [
     {
-      "name": "RelatedFeature",
-      "plural": "RelatedFeatures",
+      "name": "RelatedObservation",
+      "plural": "RelatedObservations",
       "adminOnly": false,
-      "table": "RELATED_FEATURES",
+      "table": "RELATED_OBSERVATIONS",
       "entityProperties": [
         {
           "name": "id",
@@ -39,12 +39,12 @@
         {
           "name": "Source",
           "entitySet": false,
-          "entityType": "FeatureOfInterest",
+          "entityType": "Observation",
           "required": true,
           "symmetrical": false,
           "priority": 0,
           "inverse": {
-            "name": "TargetRelatedFeatures",
+            "name": "TargetRelatedObservations",
             "entitySet": true,
             "required": false,
             "priority": 0,
@@ -53,8 +53,8 @@
           "handlers": [
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
-              "field": "SOURCE_FEATURE_ID",
-              "otherTable": "FEATURES",
+              "field": "SOURCE_OBSERVATION_ID",
+              "otherTable": "OBSERVATIONS",
               "otherField": "ID"
             }
           ],
@@ -63,12 +63,12 @@
         {
           "name": "Target",
           "entitySet": false,
-          "entityType": "FeatureOfInterest",
+          "entityType": "Observation",
           "required": false,
           "symmetrical": false,
           "priority": 0,
           "inverse": {
-            "name": "SourceRelatedFeatures",
+            "name": "SourceRelatedObservations",
             "entitySet": true,
             "required": false,
             "priority": 0,
@@ -77,8 +77,8 @@
           "handlers": [
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
-              "field": "TARGET_FEATURE_ID",
-              "otherTable": "FEATURES",
+              "field": "TARGET_OBSERVATION_ID",
+              "otherTable": "OBSERVATIONS",
               "otherField": "ID"
             }
           ],
@@ -92,7 +92,7 @@
           "symmetrical": false,
           "priority": 0,
           "inverse": {
-            "name": "RelatedFeatures",
+            "name": "RelatedObservations",
             "entitySet": true,
             "required": false,
             "priority": 0,

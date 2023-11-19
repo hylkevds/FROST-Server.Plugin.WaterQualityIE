@@ -3,10 +3,10 @@
   "simplePropertyTypes": [],
   "entityTypes": [
     {
-      "name": "RelatedFeature",
-      "plural": "RelatedFeatures",
+      "name": "RelatedDatastream",
+      "plural": "RelatedDatastreams",
       "adminOnly": false,
-      "table": "RELATED_FEATURES",
+      "table": "RELATED_DATASTREAMS",
       "entityProperties": [
         {
           "name": "id",
@@ -39,12 +39,12 @@
         {
           "name": "Source",
           "entitySet": false,
-          "entityType": "FeatureOfInterest",
+          "entityType": "Datastream",
           "required": true,
           "symmetrical": false,
           "priority": 0,
           "inverse": {
-            "name": "TargetRelatedFeatures",
+            "name": "TargetRelatedDatastreams",
             "entitySet": true,
             "required": false,
             "priority": 0,
@@ -53,8 +53,8 @@
           "handlers": [
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
-              "field": "SOURCE_FEATURE_ID",
-              "otherTable": "FEATURES",
+              "field": "SOURCE_DATASTREAM_ID",
+              "otherTable": "DATASTREAMS",
               "otherField": "ID"
             }
           ],
@@ -63,12 +63,12 @@
         {
           "name": "Target",
           "entitySet": false,
-          "entityType": "FeatureOfInterest",
+          "entityType": "Datastream",
           "required": false,
           "symmetrical": false,
           "priority": 0,
           "inverse": {
-            "name": "SourceRelatedFeatures",
+            "name": "SourceRelatedDatastreams",
             "entitySet": true,
             "required": false,
             "priority": 0,
@@ -77,8 +77,8 @@
           "handlers": [
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
-              "field": "TARGET_FEATURE_ID",
-              "otherTable": "FEATURES",
+              "field": "TARGET_DATASTREAM_ID",
+              "otherTable": "DATASTREAMS",
               "otherField": "ID"
             }
           ],
@@ -92,7 +92,7 @@
           "symmetrical": false,
           "priority": 0,
           "inverse": {
-            "name": "RelatedFeatures",
+            "name": "RelatedDatastreams",
             "entitySet": true,
             "required": false,
             "priority": 0,

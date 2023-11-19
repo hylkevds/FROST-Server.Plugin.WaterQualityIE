@@ -8,27 +8,8 @@
                         http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <property name="id-Deployment" value="LONG" global="false" />
-    <property name="idType-Deployment" value="BIGINT" global="false" />
-    <property name="id-ObservingProcedure" value="LONG" global="false" />
-    <property name="idType-ObservingProcedure" value="BIGINT" global="false" />
-    <property name="id-SamplingProcedure" value="LONG" global="false" />
-    <property name="idType-SamplingProcedure" value="BIGINT" global="false" />
-    <property name="id-Sampler" value="LONG" global="false" />
-    <property name="idType-Sampler" value="BIGINT" global="false" />
-    <property name="id-Sampling" value="LONG" global="false" />
-    <property name="idType-Sampling" value="BIGINT" global="false" />
-    <property name="id-PreparationProcedure" value="LONG" global="false" />
-    <property name="idType-PreparationProcedure" value="BIGINT" global="false" />
-    <property name="id-PreparationStep" value="LONG" global="false" />
-    <property name="idType-PreparationStep" value="BIGINT" global="false" />
-    <property name="id-FeatureType" value="LONG" global="false" />
-    <property name="idType-FeatureType" value="BIGINT" global="false" />
-    <property name="id-RelatedFeature" value="LONG" global="false" />
-    <property name="idType-RelatedFeature" value="BIGINT" global="false" />
-
     <!-- Table for Deployment -->
-    <changeSet author="scf" id="2023-10-10_Deployment-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_Deployment-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <changeLogPropertyDefined property="id-Deployment" value="LONG" />
         </preConditions>
@@ -38,7 +19,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="scf" id="2023-10-10_Deployment-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_Deployment-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <or>
                 <changeLogPropertyDefined property="id-Deployment" value="STRING" />
@@ -80,7 +61,7 @@
 
 
     <!-- Table for ObservingProcedure -->
-    <changeSet author="scf" id="2023-10-10_ObservingProcedure-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_ObservingProcedure-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <changeLogPropertyDefined property="id-ObservingProcedure" value="LONG" />
         </preConditions>
@@ -90,7 +71,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="scf" id="2023-10-10_ObservingProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_ObservingProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <or>
                 <changeLogPropertyDefined property="id-ObservingProcedure" value="STRING" />
@@ -123,7 +104,7 @@
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
     </changeSet>
 
-    <changeSet author="scf" id="2023-10-10_ObservingProcedure-Sensor" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_ObservingProcedure-Sensor" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <createTable tableName="SENSOR_OBSERVING_PROCEDURE">
             <column name="SENSOR_ID" type="${idType-Sensor}">
                 <constraints nullable="false" />
@@ -153,7 +134,7 @@
 
 
     <!-- Table for SamplingProcedure -->
-    <changeSet author="scf" id="2023-10-10_SamplingProcedure-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_SamplingProcedure-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <changeLogPropertyDefined property="id-SamplingProcedure" value="LONG" />
         </preConditions>
@@ -163,7 +144,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="scf" id="2023-10-10_SamplingProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_SamplingProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <or>
                 <changeLogPropertyDefined property="id-SamplingProcedure" value="STRING" />
@@ -187,7 +168,7 @@
 
 
     <!-- Table for Sampler -->
-    <changeSet author="scf" id="2023-10-10_Sampler-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_Sampler-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <changeLogPropertyDefined property="id-Sampler" value="LONG" />
         </preConditions>
@@ -197,7 +178,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="scf" id="2023-10-10_Sampler-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_Sampler-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <or>
                 <changeLogPropertyDefined property="id-Sampler" value="STRING" />
@@ -229,7 +210,7 @@
 
 
     <!-- Table for Sampling -->
-    <changeSet author="scf" id="2023-10-10_Sampling-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_Sampling-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <changeLogPropertyDefined property="id-Sampling" value="LONG" />
         </preConditions>
@@ -239,7 +220,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="scf" id="2023-10-10_Sampling-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_Sampling-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <or>
                 <changeLogPropertyDefined property="id-Sampling" value="STRING" />
@@ -305,7 +286,7 @@
 
 
     <!-- Creator from Feature (Sample) -->
-    <changeSet author="scf" id="2023-10-10_Feature_Creator" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_Feature_Creator" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <addColumn tableName="FEATURES">
             <column name="CREATOR_SAMPLING_ID" type="${idType-Sampling}" />
         </addColumn>
@@ -320,7 +301,7 @@
 
 
     <!-- Table for PreparationProcedure -->
-    <changeSet author="scf" id="2023-10-10_PreparationProcedure-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_PreparationProcedure-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <changeLogPropertyDefined property="id-PreparationProcedure" value="LONG" />
         </preConditions>
@@ -330,7 +311,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="scf" id="2023-10-10_PreparationProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_PreparationProcedure-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <or>
                 <changeLogPropertyDefined property="id-PreparationProcedure" value="STRING" />
@@ -354,7 +335,7 @@
 
 
     <!-- Table for PreparationStep -->
-    <changeSet author="scf" id="2023-10-10_PreparationStep-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_PreparationStep-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <changeLogPropertyDefined property="id-PreparationStep" value="LONG" />
         </preConditions>
@@ -364,7 +345,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="scf" id="2023-10-10_PreparationStep-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_PreparationStep-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <or>
                 <changeLogPropertyDefined property="id-PreparationStep" value="STRING" />
@@ -407,7 +388,7 @@
 
 
     <!-- Table for FeatureType -->
-    <changeSet author="scf" id="2023-10-10_FeatureType-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_FeatureType-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <changeLogPropertyDefined property="id-FeatureType" value="LONG" />
         </preConditions>
@@ -417,7 +398,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="scf" id="2023-10-10_FeatureType-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_FeatureType-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <or>
                 <changeLogPropertyDefined property="id-FeatureType" value="STRING" />
@@ -438,7 +419,7 @@
         </addColumn>
     </changeSet>
 
-    <changeSet author="scf" id="2023-10-10_FeatureType-Feature" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_FeatureType-Feature" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <createTable tableName="FEATURE_TYPE_FEATURE">
             <column name="FEATURE_TYPE_ID" type="${idType-FeatureType}">
                 <constraints nullable="false" />
@@ -468,7 +449,7 @@
 
 
     <!-- UltimateFeature from Datastream -->
-    <changeSet author="scf" id="2023-10-10_Datastream-UltimateFeature" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="IOSB" id="2023-10-10_Datastream-UltimateFeature" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <addColumn tableName="DATASTREAMS">
             <column name="ULTIMATE_FEATURE_ID" type="${idType-Feature}" />
         </addColumn>
@@ -480,55 +461,5 @@
             referencedTableName="FEATURES" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
     </changeSet>
-
-
-    <!-- Table for RelatedFeature -->
-    <changeSet author="scf" id="2023-10-10_RelatedFeature-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
-        <preConditions onFail="MARK_RAN">
-            <changeLogPropertyDefined property="id-RelatedFeature" value="LONG" />
-        </preConditions>
-        <createTable tableName="RELATED_FEATURES">
-            <column name="ID" type="${idTypeLong}" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="RELATED_FEATURES_PKEY" />
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="scf" id="2023-10-10_RelatedFeature-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
-        <preConditions onFail="MARK_RAN">
-            <or>
-                <changeLogPropertyDefined property="id-RelatedFeature" value="STRING" />
-                <changeLogPropertyDefined property="id-RelatedFeature" value="UUID" />
-            </or>
-        </preConditions>
-        <createTable tableName="RELATED_FEATURES">
-            <column name="ID" type="${idType-RelatedFeature}" defaultValueComputed="${defaultValueComputed-RelatedFeature}">
-                <constraints primaryKey="true" primaryKeyName="RELATED_FEATURES_PKEY" />
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="IOSB" id="2023-10-10_RelatedFeature-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
-        <addColumn tableName="RELATED_FEATURES">
-            <column name="SOURCE_FEATURE_ID" type="${idType-Feature}" />
-            <column name="TARGET_FEATURE_ID" type="${idType-Feature}" />
-            <column name="ROLE" type="TEXT" />
-        </addColumn>
-
-        <createIndex tableName="RELATED_FEATURES" indexName="RELATED_FEATURES_SOURCE_FEATURE_ID">
-            <column name="SOURCE_FEATURE_ID" />
-        </createIndex>
-        <addForeignKeyConstraint constraintName="RELATED_FEATURES_SOURCE_FEATURE_ID_FKEY"
-            baseTableName="RELATED_FEATURES" baseColumnNames="SOURCE_FEATURE_ID"
-            referencedTableName="FEATURES" referencedColumnNames="ID"
-            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
-
-        <createIndex tableName="RELATED_FEATURES" indexName="RELATED_FEATURES_TARGET_FEATURE_ID">
-            <column name="TARGET_FEATURE_ID" />
-        </createIndex>
-        <addForeignKeyConstraint constraintName="RELATED_FEATURES_TARGET_FEATURE_ID_FKEY"
-            baseTableName="RELATED_FEATURES" baseColumnNames="TARGET_FEATURE_ID"
-            referencedTableName="FEATURES" referencedColumnNames="ID"
-            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
-    </changeSet>
-
 
 </databaseChangeLog>
