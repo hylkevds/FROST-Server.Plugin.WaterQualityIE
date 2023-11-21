@@ -103,7 +103,7 @@
           "annotations": []
         },
         {
-          "name": "samplingTime",
+          "name": "time",
           "type": "TimeValue",
           "handlers": [
             {
