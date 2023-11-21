@@ -63,6 +63,28 @@
           ]
         },
         {
+          "name": "atDepth",
+          "type": "Edm.Decimal",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperBigDecimal",
+              "field": "AT_DEPTH"
+            }
+          ],
+          "annotations": []
+        },
+        {
+          "name": "depthUom",
+          "type": "Edm.String",
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
+              "field": "DEPTH_UOM"
+            }
+          ],
+          "annotations": []
+        },
+        {
           "name": "deploymentTime",
           "type": "TimeValue",
           "handlers": [

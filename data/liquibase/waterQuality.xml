@@ -42,6 +42,8 @@
             <column name="TIME_START" type="TIMESTAMP WITH TIME ZONE" />
             <column name="TIME_END" type="TIMESTAMP WITH TIME ZONE" />
             <column name="PROPERTIES" type="JSONB" />
+            <column name="AT_DEPTH" type="DOUBLE" />
+            <column name="DEPTH_UOM" type="TEXT" />
         </addColumn>
         <createIndex tableName="DEPLOYMENTS" indexName="DEPLOYMENTS_SENSOR_ID">
             <column name="SENSOR_ID" />
@@ -247,7 +249,7 @@
             <column name="ENCODING_TYPE" type="TEXT" />
             <column name="LOCATION" type="TEXT" />
             <column name="GEOM" type="geometry(Geometry,4326)" />
-            <column name="AT_DEPTH" type="FLOAT8" />
+            <column name="AT_DEPTH" type="DOUBLE" />
             <column name="DEPTH_UOM" type="TEXT" />
         </addColumn>
 
