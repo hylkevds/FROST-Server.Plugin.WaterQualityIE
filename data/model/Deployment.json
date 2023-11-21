@@ -118,6 +118,28 @@
               "otherField": "ID"
             }
           ]
+        },
+        {
+          "name": "Datastreams",
+          "entitySet": true,
+          "entityType": "Datastream",
+          "required": false,
+          "symmetrical": false,
+          "priority": 0,
+          "inverse": {
+            "name": "Deployment",
+            "entitySet": false,
+            "required": false,
+            "priority": 0
+          },
+          "handlers": [
+            {
+              "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperOneToMany",
+              "field": "ID",
+              "otherTable": "DATASTREAMS",
+              "otherField": "DEPLOYMENT_ID"
+            }
+          ]
         }
       ]
     }

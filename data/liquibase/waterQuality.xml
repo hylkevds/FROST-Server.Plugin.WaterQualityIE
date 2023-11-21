@@ -462,4 +462,18 @@
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
     </changeSet>
 
+    <!-- Deployment from Datastream -->
+    <changeSet author="IOSB" id="2023-11-21_Datastream-Deployment" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addColumn tableName="DATASTREAMS">
+            <column name="DEPLOYMENT_ID" type="${idType-Deployment}" />
+        </addColumn>
+        <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_DEPLOYMENT_ID">
+            <column name="DEPLOYMENT_ID" />
+        </createIndex>
+        <addForeignKeyConstraint constraintName="DATASTREAMS_DEPLOYMENT_ID_FKEY"
+            baseTableName="DATASTREAMS" baseColumnNames="DEPLOYMENT_ID"
+            referencedTableName="DEPLOYMENTS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" validate="true" />
+    </changeSet>
+
 </databaseChangeLog>
