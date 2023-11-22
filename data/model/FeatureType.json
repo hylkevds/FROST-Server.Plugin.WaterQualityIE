@@ -54,7 +54,7 @@
       ],
       "navigationProperties": [
         {
-          "name": "FeaturesOfInterest",
+          "name": "Features",
           "entitySet": true,
           "entityType": "FeatureOfInterest",
           "required": false,
