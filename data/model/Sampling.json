@@ -144,7 +144,7 @@
           "name": "Sampler",
           "entitySet": false,
           "entityType": "Sampler",
-          "required": true,
+          "required": false,
           "symmetrical": false,
           "priority": 0,
           "inverse": {
@@ -168,7 +168,7 @@
           "name": "SamplingProcedure",
           "entitySet": false,
           "entityType": "SamplingProcedure",
-          "required": true,
+          "required": false,
           "symmetrical": false,
           "priority": 0,
           "inverse": {
