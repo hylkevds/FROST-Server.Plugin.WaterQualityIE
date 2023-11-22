@@ -82,7 +82,7 @@
       ],
       "navigationProperties": [
         {
-          "name": "FeatureOfInterest",
+          "name": "PreparedSample",
           "entitySet": false,
           "entityType": "FeatureOfInterest",
           "required": true,
