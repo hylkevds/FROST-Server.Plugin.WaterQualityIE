@@ -104,7 +104,7 @@
         },
         {
           "name": "time",
-          "type": "TimeValue",
+          "type": "TM_Object",
           "handlers": [
             {
               "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperTimeValue",
